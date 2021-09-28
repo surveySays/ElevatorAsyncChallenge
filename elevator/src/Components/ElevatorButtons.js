@@ -18,16 +18,64 @@ const ElevatorButtons = (props) => {
   const [direction, setDirection] = useState('');
   const [floor, setFloor] = useState('');
 
+  function moving(){
+    console.log('moving started');
+
+    setTimeout(
+        function () {
+            console.log('moving ended');
+
+            stopped();
+
+            if (props.callStack.length > 0) {
+                const stopData = {
+                    direction: props.callStack[0].direction,
+                    elState: 'Moving',
+                    nextFloor: props.callStack[0].floor,
+                    doorStatus: 'Closed',
+                }
+                    props.dispatch({ type: "SET_CURRENT_STOP", payload: stopData });
+            }
+
+        }.bind(this),
+        3000
+      );  
+  }
+
+  function stopped(){
+    console.log('stopped started');
+
+    setTimeout(
+        function () {
+            console.log('stopped ended');
+            if (props.callStack.length > 0) {
+                props.dispatch({ type: "POP_CALLSTACK" });   
+            }
+        }.bind(this),
+        1000
+      ); 
+  }
+
+  useEffect(() => {
+    if (props.elState == 'Stopped' && props.callStack.length > 0) {
+        stopped(); 
+    } else if (props.elState == 'Moving' && props.callStack.length > 0) {
+        moving();
+    } else {
+        return;
+    }
+})
+
   useEffect(() => {
       if (floor && direction) {
 
-        const callData = {
+        const dataStack = {
             floor: floor,
             direction: direction,
             weight: 155.00
         }
 
-        props.dispatch({ type: "CALL_FLOOR", payload: callData });
+        props.dispatch({ type: "PUSH_CALLSTACK", payload: dataStack });
 
         setFloor('');
         setDirection('');
@@ -102,10 +150,24 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
+function mapStateToProps(state) {
+    return {
+        direction: state.direction,
+        nextFloor: state.nextFloor,
+        currentFloor: state.currentFloor,
+        elState: state.elState,
+        currentWeight: state.currentWeight,
+        maxWeight: state.maxWeight,
+        doorStatus: state.doorStatus,
+        callStack: state.callStack
+    };
+  }
+
 const mapDispatchToProps = dispatch => ({
     dispatch
 })
   
-  export default connect(null, mapDispatchToProps)(ElevatorButtons);
+export default connect(mapStateToProps, mapDispatchToProps)(ElevatorButtons);
+
 
 
