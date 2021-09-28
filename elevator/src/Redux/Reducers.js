@@ -2,7 +2,7 @@ const sensor = {
     direction: 'NA',
     nextFloor: 'NA',
     currentFloor: '1',
-    state: 'Stopped',
+    elState: 'Stopped',
     currentWeight: 0.00,
     maxWeight: 600.00,
     doorStatus: 'Closed',
@@ -14,8 +14,7 @@ function Reducer(state = sensor, action) {
         case "CALL_FLOOR":
             return {
                 ...state,
-                direction: action.payload.direction,
-                callStack: [...state.callStack, action.payload.requestedFloor],
+                callStack: [...state.callStack, action.payload],
             };
         case "CHANGE_DIRECTION":
             return {

@@ -17,41 +17,39 @@ const ElevatorButtons = (props) => {
 
   const [direction, setDirection] = useState('');
   const [floor, setFloor] = useState('');
-  const [directionPressed, setDirectionPressed] = useState(false);
-  const [floorPressed, setFloorPressed] = useState(false);
 
   useEffect(() => {
       if (floor && direction) {
 
         const callData = {
             floor: floor,
-            direction: direction
+            direction: direction,
+            weight: 155.00
         }
 
         props.dispatch({ type: "CALL_FLOOR", payload: callData });
+
+        setFloor('');
+        setDirection('');
       }
   })
 
 
   const directionButton = (_direction) => {
       if (_direction == direction) {
-        setDirectionPressed(false);
         setDirection("");
         return;
       }
 
-    setDirectionPressed(true);
     setDirection(_direction);
   }
 
   const floorButton = (_floor) => {
     if (_floor == floor) {
-        setFloorPressed(false);
         setFloor("");
         return;
       }
 
-    setFloorPressed(true);
     setFloor(_floor);
   }
 
@@ -62,18 +60,18 @@ const ElevatorButtons = (props) => {
         </div>
         <div className={classes.upDownButtons}>
             <IconButton onClick={() => directionButton('Up')}>
-                <ArrowCircleUpIcon style={{fontSize: 40}}/>
+                <ArrowCircleUpIcon style={{fontSize: 40, color: direction == 'Up' ? 'green' : 'black'}}/>
             </IconButton>
             <IconButton onClick={() => directionButton('Down')}>
-                <ArrowCircleDownIcon style={{fontSize: 40}}/>
+                <ArrowCircleDownIcon style={{fontSize: 40, color: direction == 'Down' ? 'green' : 'black'}}/>
             </IconButton>
         </div>
         <div className={classes.numberButtons}>
-            {floors.map(floor => (
-                <IconButton onClick={() => floorButton(floor)}>
-                    <CircleOutlinedIcon style={{fontSize: 40}}/>
+            {floors.map(_floor => (
+                <IconButton onClick={() => floorButton(_floor)}>
+                    <CircleOutlinedIcon style={{fontSize: 40, color: floor == _floor ? 'green' : 'black'}}/>
                     <div style={{position: 'absolute', left: 22, top: 18}}>
-                        <p style={{padding: 0, margin: 0, fontSize: 20}}>{floor}</p>
+                        <p style={{padding: 0, margin: 0, fontSize: 20, color: floor == _floor ? 'green' : 'black'}}>{_floor}</p>
                     </div>
                 </IconButton> 
             ))}

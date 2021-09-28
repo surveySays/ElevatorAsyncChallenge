@@ -26,7 +26,7 @@ const Home = (props) => {
           <div style={{display: 'flex', flexDirection: mobile ? 'row' : 'column', width: '100%', height: '100%', justifyContent: 'space-around' }}> 
           <div className={classes.elevatorButtons}>
             <h3>Outside Elevator</h3>
-            <ElevatorButtons /> 
+              {props.currentWeight > props.maxWeight ? null : <ElevatorButtons /> }
             <div
             style={{
               flexGrow: 1,
@@ -88,5 +88,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default Home;
+function mapStateToProps(state) {
+  return {
+      currentWeight: state.currentWeight,
+      maxWeight: state.maxWeight,
+  };
+}
+
+export default connect(mapStateToProps)(Home);
+
 

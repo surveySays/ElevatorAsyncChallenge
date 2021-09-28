@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 const SensorData = (props) => {
   const classes = useStyles();
 
+  const stack = [...props.callStack];
+
   const sensorValues = [
     {
     name: "Current Direction",
@@ -46,6 +48,18 @@ const SensorData = (props) => {
             <p>{val.name}: {val.value}</p>
             ))}
         </div>
+
+        <h4>Call Stack</h4>
+        <div style={{width: '90%', height: 200, border: '1px solid black', overflowY: 'scroll', marginLeft: 'auto', marginRight: 'auto'}}>
+        
+{props.callStack.map(item => (
+                <div>
+                  <p>Floor: {item.floor}, Direction {item.direction}</p>
+                </div>
+              ))}
+        
+        </div>
+  
     </div>
   );
 }
@@ -64,10 +78,11 @@ function mapStateToProps(state) {
         direction: state.direction,
         nextFloor: state.nextFloor,
         currentFloor: state.currentFloor,
-        state: state.state,
+        elState: state.state,
         currentWeight: state.currentWeight,
         maxWeight: state.maxWeight,
         doorStatus: state.doorStatus,
+        callStack: state.callStack
     };
   }
   
