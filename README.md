@@ -25,6 +25,10 @@ Unit test written (although not being run):
 - TestPopStack()
 - TestSeeSensorData()
 
+Known bugs:
+- Clicking opposite buttons to push the floor breaks stack.
+- Weight increases when buttons on pressed inside elevator (should only be outside).
+
 
 Steps to run locally:
 1. clone repo
