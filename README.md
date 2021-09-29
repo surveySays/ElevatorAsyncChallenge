@@ -8,11 +8,13 @@ Create a real-world elevator that asynchronously accepts input while maintaining
 - Asynchronously accepts new floors to be added to the call stack while the elevator is in motion.
 - Dynamic for web and mobile viewing platforms.
 
+Code Stack:
 - Written in React.js.
 - Uses Redux for global state management.
 - Uses React Hooks with useEffect Hook for state changes.
 - Deployment via Firebase.
 - Some styled buttons used from Material UI.
+
 
 Unit test written (although not being run):
 - TestMove()
@@ -21,6 +23,7 @@ Unit test written (although not being run):
 - TestSort()
 - TestPopStack()
 - TestSeeSensorData()
+
 
 Steps to run locally:
 1. clone repo
