@@ -3,6 +3,7 @@ Create a real-world elevator that asynchronously accepts input while maintaining
 
 ![image](https://user-images.githubusercontent.com/35376662/135336424-4a76b382-8902-452d-97cd-a0e954577f36.png)
 
+Parameters:
 - Elevator disables outside entry if weight limit is currently exceeded, inside elevator entry is still permitted.
 - Elevator goes to nearest floor based on current floor it is at and traveling direction.
 - Asynchronously accepts new floors to be added to the call stack while the elevator is in motion.
