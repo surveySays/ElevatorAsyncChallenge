@@ -1,11 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-
-//Material UI
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import IconButton from '@mui/material/IconButton';
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
 //Redux
 import { connect } from "react-redux";
@@ -23,34 +17,18 @@ const Home = (props) => {
     <div className={classes.root}>
         <div className={classes.innerRoot}>
           <h2 style={{marginBottom: 50}}>Elevator Async Challenge</h2>
-          <div style={{display: 'flex', flexDirection: mobile ? 'row' : 'column', width: '100%', height: '100%', justifyContent: 'space-around' }}> 
-          <div className={classes.elevatorButtons}>
-            <h3>Outside Elevator</h3>
-              {props.currentWeight > props.maxWeight ? null : <ElevatorButtons /> }
-            <div
-            style={{
-              flexGrow: 1,
-              height: 1,
-              backgroundColor: "#cccccc",
-              marginTop: 50,
-              marginBottom: 50,
-            }}
-          ></div>
-            <h3>Inside Elevator</h3>
-            <ElevatorButtons /> 
-          </div>
-          <div
-            style={{
-              flex: '1 1 100%;',
-              width: 1,
-              backgroundColor: "#cccccc",
-              marginLeft: 20,
-              marginRight: 20,
-            }}
-          ></div>
-          <div className={classes.sensorData}>
-           <SensorData />
-          </div>
+          <div className={classes.stacked} style={{ flexDirection: mobile ? 'row' : 'column' }}> 
+            <div className={classes.elevatorButtons}>
+              <h3>Outside Elevator</h3>
+                {props.currentWeight > props.maxWeight ? <ElevatorButtons disabled={true}/> : <ElevatorButtons disabled={false}/> }
+              <div className={classes.dividerHoriz}></div>
+              <h3>Inside Elevator</h3>
+              <ElevatorButtons disabled={false}/> 
+            </div>
+            <div className={classes.divider}></div>
+            <div className={classes.sensorData}>
+              <SensorData />
+            </div>
           </div>
       </div>
     </div >
@@ -60,9 +38,7 @@ const Home = (props) => {
 const useStyles = makeStyles(() => ({
   root: {
     width: "100%",
-    height: "100%",
     position: "absolute",
-    backgroundColor: "#5c85ff",
   },
   innerRoot: {
     textAlign: 'center',
@@ -85,6 +61,26 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center',
     flexGrow: 1,
     height: '100%'
+  },
+  stacked: {
+    width: '100%', 
+    height: '100%', 
+    justifyContent: 'space-around',
+    display: 'flex',
+  },
+  dividerVert: {
+    flexGrow: 1,
+    height: 1,
+    backgroundColor: "#cccccc",
+    marginTop: 50,
+    marginBottom: 50,
+  }, 
+  dividerHoriz: {
+    flexGrow: 1,
+    height: 1,
+    backgroundColor: "#cccccc",
+    marginTop: 50,
+    marginBottom: 50,
   }
 }));
 

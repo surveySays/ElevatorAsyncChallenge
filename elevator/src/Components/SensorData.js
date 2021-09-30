@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
 //Redux
 import { connect } from "react-redux";
@@ -11,10 +11,6 @@ const SensorData = (props) => {
     {
     name: "Current Direction",
     value: props.direction
-    },
-    {
-        name: "Next Floor",
-        value: props.nextFloor
     },
     {
         name: "Current Floor",
@@ -32,41 +28,42 @@ const SensorData = (props) => {
         name: "Max Weight",
         value: props.maxWeight.toFixed(2)
     },
-    {
-        name: "Door Status",
-        value: props.doorStatus
-    },
   ]
 
   return (
     <div>
         <h3>Sensor Data</h3>
-        <div style={{textAlign: 'left', marginLeft: 50}}>
+        <div className={classes.senseValues}>
             {sensorValues.map((val) => (
             <p>{val.name}: {val.value}</p>
             ))}
         </div>
 
         <h4>Call Stack</h4>
-        <div style={{width: '90%', height: 200, border: '1px solid black', overflowY: 'scroll', marginLeft: 'auto', marginRight: 'auto'}}>
-        
-        {props.callStack && props.callStack.map(item => (
+        <div className={classes.callWindow}>
+            {props.callStack && props.callStack.map((item) => (
                 <div>
                   <p>Floor: {item.floor}, Direction: {item.direction}</p>
                 </div>
-              ))}
+            ))}
         </div>
     </div>
   );
 }
 
 const useStyles = makeStyles(() => ({
-  root: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    backgroundColor: "#fff",
+  senseValues: {
+    textAlign: "left",
+    marginLeft: 50
   },
+  callWindow: {
+    width: '90%', 
+    height: 200, 
+    border: '1px solid black', 
+    overflowY: 'scroll', 
+    marginLeft: 'auto', 
+    marginRight: 'auto'
+  }
 }));
 
 function mapStateToProps(state) {

@@ -1,16 +1,37 @@
 const sensor = {
     direction: 'NA',
-    nextFloor: 'NA',
     currentFloor: '1',
     elState: 'Stopped',
     currentWeight: 0.00,
     maxWeight: 600.00,
-    doorStatus: 'Closed',
-    callStack: []
+    callStack: [],
+    currentFloorId: '0'
 };
 
 function popArray(callStack){
-    return callStack.shift();
+    if (callStack.length <= 1) {
+        return []
+    } else {
+        callStack.shift();
+        return callStack;
+    }
+}
+
+function sortNext(callStack){
+
+    if (callStack[0].direction == "Down") {
+        callStack.sort(function(a, b) {
+            return a.direction - b.direction;
+          });
+    } else {
+        callStack.sort(function(a, b) {
+            return b.direction - a.direction;
+          });
+    }
+
+    console.log('callStack after:', callStack);
+
+    return callStack;
 }
 
 function Reducer(state = sensor, action) {
@@ -18,33 +39,26 @@ function Reducer(state = sensor, action) {
         case "PUSH_CALLSTACK":
             return {
                 ...state,
+                currentWeight: state.currentWeight + action.payload.weight,
                 callStack: [...state.callStack, action.payload],
             };
         case "POP_CALLSTACK":
             return {
                 ...state,
-                callStack: [...state.callStack].length <= 1 ? [] : popArray([...state.callStack]),
-                direction: 'NA',
-                nextFloor: 'NA',
-                currentWeight: state.currentWeight - 155.00
+                currentWeight: state.callStack.length > 0 ? (state.currentWeight - 155.00) : 0.00,
+                callStack: popArray([...state.callStack]),
             };
-        case "SET_NEXT_FLOOR":
+        case "SORT_STACK":
             return {
                 ...state,
-                nextFloor: action.payload.nextFloor,
+                callStack: sortNext([...state.callStack]),
             };
-        case "SET_CURRENT_FLOOR":
-            return {
-                ...state,
-                currentFloor: action.payload.currentFloor,
-            };
-        case "SET_CURRENT":
+        case "UPDATE_SENSOR_DATA":
             return {
                 ...state,
                 direction: action.payload.direction,
+                currentFloor: action.payload.floor,
                 elState: action.payload.elState,
-                currentWeight: state.currentWeight + action.payload.currentWeight,
-                doorStatus: action.payload.doorStatus,
             };
         default:
             return state;
